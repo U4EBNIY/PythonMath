@@ -22,7 +22,9 @@ from utils.excel_reader import ExcelReader
 
 
 class Approximation2D:
-    description = 'Аппроксимация 2D: Z = f(X, Y)'
+    description = ('Аппроксимация 2D: Z = f(X, Y) - построение приближающей поверхности по экспериментальным точкам. '
+                   'Формат Excel: столбцы X1, X2 и Y. '
+                   'Режимы: 0 - Полином 2-й степени, 1 - Билинейная интерполяция')
     input_name = 'X1,X2'
     output_name = 'Y'
     io_desc = 'Входные/выходные переменные'

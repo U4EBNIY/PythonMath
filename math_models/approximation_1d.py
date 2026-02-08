@@ -22,7 +22,9 @@ from utils.excel_reader import ExcelReader
 
 
 class Approximation1D:
-    description = 'Аппроксимация 1D: Y = f(X)'
+    description = ('Аппроксимация 1D: Y = f(X) - построение приближающей функции по экспериментальным точкам. '
+                   'Формат Excel: столбцы X и Y. Режимы: 0 - Полином 2-й степени,'
+                   ' 1 - Cплайн')
     input_name = 'X'
     output_name = 'Y'
     io_desc = 'Входная/выходная переменная'

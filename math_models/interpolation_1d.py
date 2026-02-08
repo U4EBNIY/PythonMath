@@ -21,7 +21,8 @@ from utils.excel_reader import ExcelReader
 
 
 class Interpolation1D:
-    description = 'Интерполяция 1D: Y = f(X) - кусочно-линейная или ступенчатая'
+    description = ('Интерполяция 1D: Y = f(X) - вычисление промежуточных значений между известными точками.'
+                   ' Формат Excel: столбцы X и Y. Режимы: 0 - Кусочно-линейная, 1 - Ступенчатая')
     input_name = 'X'
     output_name = 'Y'
     io_desc = 'Входная/выходная переменная'
