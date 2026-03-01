@@ -23,8 +23,7 @@ from utils.excel_reader import ExcelReader
 
 class Interpolation2D:
     description = ('Интерполяция 2D: Z = f(X, Y) - вычисление значений поверхности в произвольных точках.'
-                   ' Формат Excel: столбцы X1, X2 и Y. Режимы: 0 - Линейная интерполяция,'
-                   ' 1 - Аналогично режиму 0')
+                   ' Формат Excel: столбцы X1, X2 и Y. Режим: 0 - Линейная интерполяция')
     input_name = 'X1,X2'
     output_name = 'Y'
     io_desc = 'Входные/выходные переменные'

@@ -55,7 +55,7 @@ class ModelManager:
         return False
 
     def calculate(self, model_id, inputs):
-        # Вычислить результат с помощью модели.
+        # Вычислить результат с помощью модели
         # Получаем данные модели
         model_data = self.get_model(model_id)
         if not model_data:
@@ -195,19 +195,43 @@ class MathApi(MathApi_pb2_grpc.MathApiServicer):
             model_name = model_data['name']
 
             try:
-                if '1D' in model_name:
+                # Проверяем тип модели
+                model_class_name = model.__class__.__name__
+
+                if 'NOx' in model_name or 'NOx' in model_class_name:
+                    # 5 входов для модели
+                    if len(inputs) < 5:
+                        return MathApi_pb2.TagsDataArray(message="Err_Недостаточно входных данных")
+
+                    # Берем первые 5 значений
+                    result = model.calculate(inputs[:5])
+
+                if '1D' in model_name or '1D' in model_class_name:
+                    # Для 1D моделей - 1 вход
                     if len(inputs) == 0:
                         return MathApi_pb2.TagsDataArray(message="Err_Нет входных данных")
                     last_value = inputs[-1]
                     result = model.calculate(last_value)
-                elif '2D' in model_name:
+
+                elif '2D' in model_name or '2D' in model_class_name:
+                    # Для 2D моделей - 2 входа
                     if len(inputs) < 2:
                         return MathApi_pb2.TagsDataArray(message="Err_Недостаточно входных данных для 2D модели")
                     x1 = inputs[-2] if len(inputs) >= 2 else inputs[0]
                     x2 = inputs[-1]
                     result = model.calculate(x1, x2)
+
                 else:
-                    return MathApi_pb2.TagsDataArray(message="Err_Неизвестный тип модели")
+                    # Если не можем определить, пробуем универсально
+                    # Пробуем вызвать calculate с массивом
+                    try:
+                        result = model.calculate(inputs)
+                    except TypeError:
+                        # Если не получается, пробуем с одним значением
+                        if len(inputs) > 0:
+                            result = model.calculate(inputs[0])
+                        else:
+                            return MathApi_pb2.TagsDataArray(message="Err_Неизвестный тип модели")
 
                 if result is None:
                     return MathApi_pb2.TagsDataArray(message="Err_Ошибка вычисления")
